@@ -3,15 +3,24 @@
 var arraySplit = "";
 var exitApplication = false;
 var userInput = "";
+var finalPassword = "";
+
+//Criterias for the password
+var pCriteria = {
+    lowercase: { indexNumber: 1, criteria: "abcdefghijklmnopqrstuvwxyz"},
+    uppercase: { indexNumber: 2, criteria: "ABCDEFGHIJKLMNOPQRSTUVWXYZ"},
+    numeric: { indexNumber: 3, criteria: "0123456789"},
+    symbols: { indexNumber: 4, criteria: " !\"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~"}
+}
 
 // Get references to the #generate element
 var generateBtn = document.querySelector("#generate");
 
+//Call the function to generate the password
 var generatePassword = function(){
     //Alert the User of the criteria and tell the user what they selected
     window.alert("The following are the criteria of this password generator: lowercase, uppercase, and/or special characters");
     userInput = window.prompt("Select the criteria to be used (You can select more than one, include spaces when selecting): 1=Lowercase 2=Uppercase 3=Numeric 4=Special Characters ").split(" ");
-    
     //SPlit the users input or exit the application
     if (!userInput) {
         exitApplication = window.alert("Restarting the application");
@@ -32,16 +41,13 @@ var generatePassword = function(){
         
         switch(inputCriteriaInteger){
             case 1:
-                console.log("Case 1");
             case 2:
-                console.log("Case 2");
             case 3:
-                console.log("Case 3");
             case 4:
-                console.log("Case 4");
+                break;
             default:
             if (!inputCriteriaInteger) {
-                window.alert(" Do you wish to exit the application?");
+                window.alert("Please select a criteria using numbers and only from 1-4 seprated by space.\n Restarting application");
                 generatePassword();  
             }
             else { 
@@ -53,7 +59,55 @@ var generatePassword = function(){
 }
 
 //Calling function to pass length
-passLength();
+var pLength = passLength();
+
+generatePasswordRandomness(userInput,pLength);
+
+function generatePasswordRandomness(userInput, pLength){
+    var valueRandom = 0;
+}
+
+//Counters
+var counter = 1;
+var UserCounter = 0;
+var finalPassword = "";
+
+while ( counter <= pLenght )  {
+    counter += 1;
+
+
+if (!userInput[UserCounter]) {
+    UserCounter -= Math.floor( ( (Math.random() * userInput.length) + 1) );
+
+
+var inputCriteria = userInput[UserCounter];// Convert this output into integer for further validation
+var inputCriteriaInteger = parseInt(inputCriteria);
+switch(inputCriteriaInteger) {
+    case 1:
+        valueRandom = Math.floor(Math.random() * 26);
+        finalPassword += pCriteria.lowercase.criteria[valueRandom];
+        UserCounter += 1;
+        console.log(finalPassword);
+        break;
+    case 2:
+        valueRandom = Math.floor(Math.random() * 26);
+        finalPassword += pCriteria.uppercase.criteria[valueRandom];
+        UserCounter += 1;
+        break;
+    case 3:
+        valueRandom = Math.floor(Math.random() * 10);
+        finalPassword += pCriteria.numeric.criteria[valueRandom];
+        UserCounter += 1;
+        break;
+    case 4:
+        valueRandom = Math.floor(Math.random() * 31);
+        finalPassword += pCriteria.symbols.criteria[valueRandom];
+        UserCounter += 1;
+        break;
+        }
+    }
+    console.log("Final password is: " + finalPassword);
+}
 
 //Function to ask user the length of the password
 function passLength(){
@@ -67,15 +121,21 @@ function passLength(){
         passLength();
     } else {
         window.alert("You have entered a valid length of: " + pLength + "\n Password will now be generated!");
+        return pLength;
     }
     }
 
 // Write password to the #password input
 function writePassword() {
+    window.alert(" Lets check our password criteria options");
     var password = generatePassword();
     var passwordText = document.querySelector("#password");
 
-    passwordText.value = password;
+    //passwordText.value = password;
+    document.getElementById("password").readOnly = false;
+    document.getElementById("password").value = arraySplit;
+    document.getElementById("password").readOnly = true;
+
 
 }
 
